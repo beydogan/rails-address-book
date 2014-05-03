@@ -2,13 +2,16 @@
 // All this logic will automatically be available in application.js.
 
 window.map = null;
+window.geocoder = null;
+window.marker = null;
+
 function initialize() {
     geocoder = new google.maps.Geocoder();
     var mapOptions = {
         center: new google.maps.LatLng(-34.397, 150.644),
         zoom: 8
     };
-    map = new google.maps.Map(document.getElementById("map-canvas"),
+    map = new google.maps.Map(document.getElementById("person-form-map"),
         mapOptions);
 
     if($('#person-address') && $('#person-address').val() != ""){ //Update map when address field is not empty
@@ -36,11 +39,16 @@ function decodeAddress(address) {
 }
 
 function removeMarker(){
-    marker.setMap(null);
+    if(marker)
+        marker.setMap(null);
 }
 
 $(document).ready(function(){
-    initialize();
+
+    if($("#person-form-map").size() > 0){
+        initialize();
+
+    }
 
     $('#person-address').on('input', function() {
         removeMarker()
