@@ -5,13 +5,13 @@ window.map = null;
 window.geocoder = null;
 window.marker = null;
 
-function initialize() {
+function initializeMap(elementId) {
     geocoder = new google.maps.Geocoder();
     var mapOptions = {
         center: new google.maps.LatLng(-34.397, 150.644),
         zoom: 8
     };
-    map = new google.maps.Map(document.getElementById("person-form-map"),
+    map = new google.maps.Map(document.getElementById(elementId),
         mapOptions);
 
     if($('#person-address') && $('#person-address').val() != ""){ //Update map when address field is not empty
@@ -46,8 +46,13 @@ function removeMarker(){
 $(document).ready(function(){
 
     if($("#person-form-map").size() > 0){
-        initialize();
+        initializeMap("person-form-map");
+    }
 
+    if($("#person-show-map").size() > 0){
+        initializeMap("person-show-map");
+        removeMarker();
+        decodeAddress($("#person-address").text());
     }
 
     $('#person-address').on('input', function() {
